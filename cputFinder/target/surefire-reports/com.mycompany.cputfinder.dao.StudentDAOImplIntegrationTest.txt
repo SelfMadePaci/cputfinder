@@ -1,0 +1,59 @@
+-------------------------------------------------------------------------------
+Test set: com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 4, Errors: 1, Skipped: 0, Time elapsed: 0.888 s <<< FAILURE! -- in com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest
+com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.create_insertsNewStudent_intoRealDatabase -- Time elapsed: 0.091 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected create() to succeed against the live Derby database ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.create_insertsNewStudent_intoRealDatabase(StudentDAOImplIntegrationTest.java:71)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+
+com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.read_retrievesTheStudentJustCreated -- Time elapsed: 0.021 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected to read back the student inserted in step 1 ==> expected: not <null>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertNotNull.failNull(AssertNotNull.java:49)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:35)
+	at org.junit.jupiter.api.Assertions.assertNotNull(Assertions.java:312)
+	at com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.read_retrievesTheStudentJustCreated(StudentDAOImplIntegrationTest.java:82)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+
+com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.findByEmail_locatesStudent_byEmailLookup -- Time elapsed: 0.016 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: findByEmail should locate the test student — this backs the login flow ==> expected: not <null>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertNotNull.failNull(AssertNotNull.java:49)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:35)
+	at org.junit.jupiter.api.Assertions.assertNotNull(Assertions.java:312)
+	at com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.findByEmail_locatesStudent_byEmailLookup(StudentDAOImplIntegrationTest.java:92)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+
+com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.update_changesFullName_andPersistsToDatabase -- Time elapsed: 0.030 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.mycompany.cputfinder.domain.Student.setFullName(String)" because "student" is null
+	at com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.update_changesFullName_andPersistsToDatabase(StudentDAOImplIntegrationTest.java:100)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+
+com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.delete_removesStudent_fromRealDatabase -- Time elapsed: 0.017 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected delete() to succeed ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at com.mycompany.cputfinder.dao.StudentDAOImplIntegrationTest.delete_removesStudent_fromRealDatabase(StudentDAOImplIntegrationTest.java:114)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+
