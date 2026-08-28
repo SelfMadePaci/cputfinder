@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPUT Finder - Register</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="register-page">
+    <header class="top-nav">
+      <div class="logo-area">
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <img src="images/cput-logo.png" alt="CPUT Logo" class="logo">
+      </div>
+
+    </header>
+
+    <main class="register-container">
+      <div class="register-card">
+        <h1>Create Account</h1>
+        <p class="subtitle">Register for CPUT Finder</p>
+
+        <form id="registerForm">
+          <div class="input-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name" required>
+          </div>
+
+          <div class="input-group">
+            <label for="studentNumber">Student Number</label>
+            <input type="text" id="studentNumber" placeholder="e.g. 217116779" required>
+          </div>
+
+          <div class="input-group">
+            <label for="studentEmail">Student Email</label>
+            <input type="email" id="studentEmail" placeholder="e.g. 217116779@mycput.ac.za" required>
+          </div>
+
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Create a password" required>
+          </div>
+
+          <div class="input-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+          </div>
+
+          <button type="submit" class="btn-primary">Register</button>
+        </form>
+
+        <p class="register-text">
+          Already have an account? <a href="index.html">Login</a>
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPUT Finder - Map</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <header class="top-nav">
+    <div class="logo-area">
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <img src="images/cput-logo.png" alt="CPUT Logo" class="logo">
+    </div>
+    <nav class="nav-links" id="topNav">
+      <a href="home.html">Home</a>
+      <a href="map.html">Map</a>
+      <a href="cafeteria.html">Cafeteria</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <div class="home-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <a href="home.html" class="sidebar-link">Home</a>
+      <a href="saved-places.html" class="sidebar-link">Saved Places</a>
+      <a href="timetable.html" class="sidebar-link">My Timetable</a>
+      <a href="cafeteria.html" class="sidebar-link">Cafeteria</a>
+      <a href="map.html" class="sidebar-link">Map</a>
+      <a href="about.html" class="sidebar-link">About / Help</a>
+      <a href="settings.html" class="sidebar-link">Settings</a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Campus Map</h1>
+        <p class="subtitle">Find your way around campus</p>
+      </div>
+
+      <!-- Search -->
+      <div class="map-search">
+        <input type="text" id="searchInput" placeholder="Search for a building or venue...">
+        <button onclick="searchLocation()">Search</button>
+      </div>
+
+      <!-- Campus Map -->
+      <div class="map-wrapper">
+
+        <!-- Real OpenStreetMap Map -->
+        <div id="campusMap"></div>
+
+      </div>
+
+      <!-- Building Information -->
+      <div id="infoCard" class="info-card hidden">
+
+        <h3 id="infoTitle">Building</h3>
+
+        <p id="infoDescription">
+          Building information will appear here.
+        </p>
+
+        <div class="info-actions">
+          <button class="btn-primary" onclick="savePlace()">
+            Save Place
+          </button>
+
+          <button class="btn-secondary" onclick="closeInfo()">
+            Close
+          </button>
+        </div>
+
+      </div>
+
+      <div id="infoCard" class="info-card hidden">
+
+        <h3 id="infoTitle">Building Name</h3>
+
+        <p id="infoDescription">
+          Building information will appear here.
+        </p>
+
+        <div class="info-actions">
+          <button class="btn-primary" onclick="savePlace()">
+            Save Place
+          </button>
+
+          <button class="btn-secondary" onclick="closeInfo()">
+            Close
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Location Information -->
+      <div id="infoCard" class="info-card hidden">
+        <h3 id="infoTitle">Building Name</h3>
+        <p id="infoDescription">Building information goes here</p>
+        <div class="info-actions">
+          <button class="btn-primary" onclick="savePlace()">Save Place</button>
+          <button class="btn-secondary" onclick="closeInfo()">Close</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CPUT Finder</h3>
+                <p>
+                    Helping students find their way around campus quickly and easily.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="home.html">Home</a>
+                <a href="map.html">Map</a>
+                <a href="timetable.html">Timetable</a>
+                <a href="cafeteria.html">Cafeteria</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="about.html">About / Help</a>
+                <a href="settings.html">Settings</a>
+                <a href="profile.html">Profile</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 CPUT Finder. All rights reserved.</p>
+        </div>
+    </footer>
+
+  <!-- Mobile navigation -->
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item active">Home</a>
+    <a href="saved-places.html" class="nav-item">Saved</a>
+    <a href="cafeteria.html" class="nav-item">Food</a>
+    <a href="map.html" class="nav-item">Map</a>
+    <a href="profile.html" class="nav-item">Profile</a>
+  </nav>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

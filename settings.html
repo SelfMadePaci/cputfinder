@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPUT Finder - Settings</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  
+  <header class="top-nav">
+    <div class="logo-area">
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <img src="images/cput-logo.png" alt="CPUT Logo" class="logo">
+    </div>
+    <nav class="nav-links" id="topNav">
+      <a href="home.html">Home</a>
+      <a href="map.html">Map</a>
+      <a href="cafeteria.html">Cafeteria</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <div class="home-layout">
+
+    <aside class="sidebar" id="sidebar">
+      <a href="home.html" class="sidebar-link">Home</a>
+      <a href="saved-places.html" class="sidebar-link">Saved Places</a>
+      <a href="timetable.html" class="sidebar-link">My Timetable</a>
+      <a href="cafeteria.html" class="sidebar-link">Cafeteria</a>
+      <a href="map.html" class="sidebar-link">Map</a>
+      <a href="about.html" class="sidebar-link">About / Help</a>
+      <a href="settings.html" class="sidebar-link">Settings</a>
+    </aside>
+
+   
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Settings</h1>
+        <p class="subtitle">Change your CPUT Finder settings</p>
+      </div>
+
+      <div class="settings-card">
+        <h2>Account</h2>
+        <div class="setting-item">
+          <div>
+            <strong>Edit Profile</strong>
+            <p>Update your name, email and phone number</p>
+          </div>
+          <a href="profile.html" class="setting-btn">Edit</a>
+        </div>
+        <div class="setting-item">
+          <div>
+            <strong>Change Password</strong>
+            <p>Update your account password</p>
+          </div>
+          <button class="setting-btn" onclick="alert('Password change feature coming soon')">Change</button>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h2>Preferences</h2>
+        <div class="setting-item">
+          <div>
+            <strong>Dark Mode</strong>
+            <p>Switch between light and dark theme</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <div>
+            <strong>Notifications</strong>
+            <p>Receive updates about classes and cafeteria</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <div>
+            <strong>Accessibility Mode</strong>
+            <p>Prioritise accessible routes and buildings</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h2>Support</h2>
+        <div class="setting-item">
+          <div>
+            <strong>About & Help</strong>
+            <p>Learn how to use Campus Navigator</p>
+          </div>
+          <a href="about.html" class="setting-btn">Open</a>
+        </div>
+        <div class="setting-item">
+          <div>
+            <strong>Log Out</strong>
+            <p>Sign out of your account</p>
+          </div>
+          <a href="index.html" class="setting-btn danger">Log Out</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CPUT Finder</h3>
+                <p>
+                    Helping students find their way around campus quickly and easily.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="home.html">Home</a>
+                <a href="map.html">Map</a>
+                <a href="timetable.html">Timetable</a>
+                <a href="cafeteria.html">Cafeteria</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="about.html">About / Help</a>
+                <a href="settings.html">Settings</a>
+                <a href="profile.html">Profile</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 CPUT Finder. All rights reserved.</p>
+        </div>
+    </footer>
+
+  <!-- Mobile Navigation -->
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item">Home</a>
+    <a href="map.html" class="nav-item">Map</a>
+    <a href="cafeteria.html" class="nav-item">Food</a>
+    <a href="saved-places.html" class="nav-item">Saved</a>
+    <a href="profile.html" class="nav-item">Profile</a>
+  </nav>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>
