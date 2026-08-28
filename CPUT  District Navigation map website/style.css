@@ -1,0 +1,883 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========================================================= BODY ========================================================= */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    color: #111;
+    min-height: 100vh;
+}
+
+/* ========================================================= HEADER ========================================================= */
+.header {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-bottom: 1px solid #eeeeee;
+}
+
+/* ========================================================= CPUT LOGO ========================================================= */
+.logo-container {
+    width: 220px;
+    height: 100px;
+    background-color: #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.logo-container img {
+    width: 190px;
+    height: 88px;
+    object-fit: contain;
+    display: block;
+}
+
+/* ========================================================= TOP NAVIGATION ========================================================= */
+.top-navigation {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 30px;
+}
+
+.top-navigation a {
+    text-decoration: none;
+    color: #111;
+    font-size: 21px;
+    font-weight: 600;
+    padding: 10px 20px;
+    white-space: nowrap;
+}
+
+.top-navigation a:hover {
+    color: #078cf5;
+}
+
+.top-navigation a.active {
+    color: #4354a0;
+}
+
+/* ========================================================= LEFT SIDEBAR ========================================================= */
+#myNav {
+    position: absolute;
+    top: 110px;
+    left: 0;
+    width: 220px;
+    min-height: calc(100px);
+    background-color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar links */
+#myNav a {
+    display: block;
+    width: 100%;
+    padding: 16px 5px;
+    color: #17202a;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Sidebar hover */
+#myNav a:hover {
+    background-color: #dddddd;
+    color: #078cf5;
+}
+
+/* Active sidebar link */
+#myNav a.active {
+    color: #078cf5;
+}
+
+/* ========================================================= MAIN CONTAINER ========================================================= */
+.main-container {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    padding: 0 28px;
+}
+
+/* ========================================================= PROFILE SECTION ========================================================= */
+.profile-section {
+    position: relative;
+    min-height: 300px;
+}
+
+/* ========================================================= PROFILE PICTURE ========================================================= */
+.profile-picture-container {
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #078cf5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+/* ========================================================= MY PROFILE ========================================================= */
+.profile-section h1 {
+    position: absolute;
+    left: 45px;
+    top: 180px;
+    color: #078cf5;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* ========================================================= USER INFORMATION ========================================================= */
+.user-information {
+    position: absolute;
+    left: 200px;
+    top: 45px;
+    font-size: 16px;
+    color: #111;
+}
+
+/* Information rows */
+.info-row {
+    display: flex;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
+/* Labels */
+.info-row .label {
+    width: 80px;
+    font-weight: 700;
+}
+
+/* ========================================================= DASHBOARD ========================================================= */
+.dashboard {
+    width: 100%;
+    max-width: 1400px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "schedule activities" "map map";
+    column-gap: 30px;
+    row-gap: 25px;
+    box-sizing: border-box;
+}
+
+/* ========================================================= MY SCHEDULE BOX ========================================================= */
+.schedule-box {
+    grid-area: schedule;
+    width: 100%;
+    min-height: 250px;
+    background-color: #078cf5;
+    border: 10px solid #078cf5;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Schedule title */
+.schedule-box h2 {
+    margin: 0;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #078cf5;
+    color: #000;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Schedule content */
+.schedule-content {
+    flex: 1;
+    background-color: #fff;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    box-sizing: border-box;
+}
+
+/* Schedule links */
+.schedule-content a {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 10px 10px;
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s ease;
+}
+
+/* Remove line from last item */
+.schedule-content a:last-child {
+    border-bottom: none;
+}
+
+/* Hover effect */
+.schedule-content a:hover {
+    background-color: #f5f5f5;
+}
+
+/* Schedule icons */
+.schedule-content i {
+    width: 45px;
+    font-size: 38px;
+    color: #000;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* ========================================================= MY ACTIVITIES BOX ========================================================= */
+.activities-box {
+    grid-area: activities;
+    width: 100%;
+    min-height: 300px;
+    background-color: #078cf5;
+    border: 10px solid #078cf5;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Activities title */
+.activities-box h2 {
+    margin: 0;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #078cf5;
+    color: #000;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Activities content */
+.activities-content {
+    flex: 1;
+    background-color: #fff;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    box-sizing: border-box;
+}
+
+/* Individual activity */
+.activity {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    box-sizing: border-box;
+}
+
+/* Remove line from last activity */
+.activity:last-child {
+    border-bottom: none;
+}
+
+/* Activity icons */
+.activity i {
+    width: 45px;
+    font-size: 38px;
+    color: #000;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Activity text */
+.activity span {
+    color: #000;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* ========================================================= CAMPUS MAP ========================================================= */
+.map-section {
+    grid-area: map;
+    width: 100%;
+    height: 100%;
+    margin-top: 80px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Large campus map */
+.campus-map {
+    display: block;
+    width: 100%;
+    max-width: 1320px;
+    height: 360px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Explore Map title */
+.map-section h2 {
+    margin: 8px 0 0;
+    padding: 0;
+    color: #000;
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* ========================================================= RESPONSIVE DESIGN ========================================================= */
+/* Tablets */
+@media (max-width: 900px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-areas: "schedule" "activities" "map";
+        gap: 25px;
+        padding: 0 15px;
+    }
+
+    .schedule-box,
+    .activities-box {
+        min-height: 280px;
+    }
+
+    .campus-map {
+        height: 320px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 600px) {
+    .dashboard {
+        margin-top: 25px;
+        padding: 0 10px;
+    }
+
+    .schedule-box,
+    .activities-box {
+        min-height: 250px;
+        border-width: 7px;
+    }
+
+    .schedule-box h2,
+    .activities-box h2 {
+        height: 50px;
+        font-size: 23px;
+    }
+
+    .schedule-content,
+    .activities-content {
+        padding: 8px 15px;
+    }
+
+    .schedule-content a {
+        min-height: 60px;
+        gap: 15px;
+        font-size: 19px;
+    }
+
+    .activity {
+        min-height: 60px;
+        gap: 15px;
+    }
+
+    .activity span {
+        font-size: 19px;
+    }
+
+    .schedule-content i,
+    .activity i {
+        width: 35px;
+        font-size: 30px;
+    }
+
+    .campus-map {
+        width: 100%;
+        height: 250px;
+        border-radius: 12px;
+    }
+
+    .map-section h2 {
+        font-size: 24px;
+    }
+}
+
+
+
+.map-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* ========================================================= CENTER MAP ========================================================= */
+.map-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-right img {
+    width: 550px;
+    max-width: 90%;
+    height: 350px;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================================= MIDDLE SEARCH ========================================================= */
+.search-container {
+    width: 450px;
+    max-width: 90%;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    margin: 120px;
+    padding: 0 18px;
+    background-color: #ffffff;
+    border: 1px solid #d5d5d5;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+}
+
+/* Search input */
+.search-container input {
+    flex: 1;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 16px;
+}
+
+/* Search icon */
+.search-container i {
+    font-size: 20px;
+    color: #078cf5;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* Placeholder */
+.search-container input::placeholder {
+    color: #888;
+}
+
+/* ========================================================= MOBILE ========================================================= */
+@media screen and (max-width: 600px) {
+    .search-container {
+        width: 100%;
+        max-width: 100%;
+        height: 50px;
+        margin: 25px auto;
+    }
+}
+
+/* ========================================================= RIGHT MAP PREVIEW ========================================================= */
+/* If you still have .map-right in the HTML, keep it on the right. */
+.map-right {
+    grid-column: 3;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.map-right .map-preview {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.map-right .map-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.map-right .location-pin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 40px;
+}
+
+.map-right h2 {
+    margin-top: 12px;
+    font-size: 25px;
+    text-align: center;
+}
+
+/* ========================================================= TABLET ========================================================= */
+@media screen and (max-width: 1000px) {
+    .map-container {
+        grid-template-columns: 1fr 350px;
+    }
+
+    .map-left {
+        grid-column: 1;
+    }
+
+    .map-search {
+        grid-column: 2;
+    }
+
+    .map-right {
+        display: none;
+    }
+
+    .map-left img {
+        height: 300px;
+    }
+}
+
+/* ========================================================= MOBILE ========================================================= */
+@media screen and (max-width: 600px) {
+    .map-container {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .map-left {
+        width: 100%;
+        order: 1;
+    }
+
+    .map-search {
+        width: 100%;
+        order: 2;
+    }
+
+    .map-right {
+        display: none;
+    }
+
+    .map-left img {
+        width: 100%;
+        height: 250px;
+    }
+
+    .map-search .search-container {
+        width: 100%;
+        max-width: none;
+        height: 50px;
+    }
+}
+
+/* ========================================================= FOOTER ========================================================= */
+.footer {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    min-height: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 30px;
+}
+
+/* Footer links */
+.footer a {
+    color: #4354a0;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Footer hover */
+.footer a:hover {
+    color: #078cf5;
+}
+
+/* ========================================================= TABLET ========================================================= */
+@media screen and (max-width: 1100px) {
+
+    /* Header */
+    .header {
+        height: auto;
+        min-height: 100px;
+        flex-wrap: wrap;
+    }
+
+    .top-navigation {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .top-navigation a {
+        font-size: 18px;
+    }
+
+    /* Sidebar */
+    #myNav {
+        width: 190px;
+    }
+
+    /* Main */
+    .main-container {
+        margin-left: 190px;
+        width: calc(100% - 190px);
+    }
+
+    /* Profile */
+    .profile-section {
+        min-height: 500px;
+    }
+
+    .user-information {
+        position: static;
+        margin-top: 20px;
+    }
+
+    /* Dashboard */
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    /* Dashboard boxes */
+    .schedule-box,
+    .activities-box,
+    .map-section {
+        width: 100%;
+    }
+
+    /* Saved page */
+    .main-container:has(.campus-section) {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .main-container:has(.campus-section) .profile-section {
+        width: 100%;
+    }
+
+    .saved-box {
+        width: 100%;
+    }
+
+    .campus-section {
+        width: 100%;
+    }
+
+    /* Map */
+    .map-container {
+        gap: 100px;
+    }
+
+    /* Footer */
+    .footer {
+        margin-left: 190px;
+        width: calc(100% - 190px);
+    }
+}
+
+/* ========================================================= MOBILE ========================================================= */
+@media screen and (max-width: 600px) {
+
+    /* Header */
+    .header {
+        height: auto;
+        flex-direction: column;
+        padding-bottom: 15px;
+    }
+
+    /* Logo */
+    .logo-container {
+        width: 100%;
+        height: 90px;
+    }
+
+    .logo-container img {
+        width: 170px;
+        height: 75px;
+    }
+
+    /* Top navigation */
+    .top-navigation {
+        flex-direction: column;
+        width: 100%;
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .top-navigation a {
+        font-size: 17px;
+    }
+
+    /* Sidebar */
+    #myNav {
+        position: static;
+        width: 100%;
+        min-height: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #myNav a {
+        width: 50%;
+        padding: 12px;
+        text-align: center;
+    }
+
+    /* Main */
+    .main-container {
+        margin-left: 0;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    /* Profile */
+    .profile-section {
+        min-height: auto;
+        padding-top: 25px;
+        padding-bottom: 30px;
+    }
+
+    /* Profile picture */
+    .profile-picture-container {
+        width: 230px;
+        height: 230px;
+    }
+
+    /* Profile heading */
+    .profile-section h1 {
+        font-size: 26px;
+        margin-top: 10px;
+    }
+
+    /* User information */
+    .user-information {
+        position: static;
+        margin-top: 20px;
+        font-size: 17px;
+    }
+
+    .info-row {
+        white-space: normal;
+    }
+
+    /* Dashboard */
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* Schedule */
+    .schedule-content {
+        padding: 25px;
+    }
+
+    .schedule-content a {
+        font-size: 18px;
+    }
+
+    /* Activities */
+    .activities-content {
+        padding: 25px;
+    }
+
+    .activity {
+        font-size: 18px;
+        gap: 15px;
+    }
+
+    /* Campus map */
+    .campus-map {
+        height: 250px;
+    }
+
+    /* Saved places */
+    .saved-content {
+        padding: 25px;
+    }
+
+    .saved-item {
+        font-size: 18px;
+        gap: 15px;
+    }
+
+    /* Campus title */
+    .campus-title {
+        width: 260px;
+        height: 65px;
+        font-size: 25px;
+    }
+
+    /* Maps */
+    .map-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .map-left {
+        width: 280px;
+        height: 180px;
+        margin-top: 0;
+    }
+
+    .map-right {
+        margin-top: 0;
+    }
+
+    /* Footer */
+    .footer {
+        margin-left: 0;
+        width: 100%;
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+}
