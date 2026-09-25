@@ -16,6 +16,18 @@ function showFormStatus(elementId, message, isError = false) {
   status.classList.toggle("success", !isError && Boolean(message));
 }
 
+function getApiErrorMessage(result, fallback = "The request could not be completed.") {
+  if (typeof result === "string" && result.trim()) {
+    return result;
+  }
+  if (result && typeof result === "object") {
+    if (typeof result.message === "string" && result.message.trim()) return result.message;
+    if (typeof result.error === "string" && result.error.trim()) return result.error;
+    if (typeof result.detail === "string" && result.detail.trim()) return result.detail;
+  }
+  return fallback;
+}
+
 async function sendApiRequest(endpoint, payload) {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: payload ? "POST" : "GET",
@@ -33,7 +45,7 @@ async function sendApiRequest(endpoint, payload) {
   }
 
   if (!response.ok) {
-    throw new Error(result.message || "The request could not be completed.");
+    throw new Error(getApiErrorMessage(result));
   }
 
   return result;
@@ -51,7 +63,7 @@ async function sendStudentRequest(endpoint, method, payload) {
   });
   if (response.status === 204) return null;
   const result = await response.json();
-  if (!response.ok) throw new Error(result.message || result);
+  if (!response.ok) throw new Error(getApiErrorMessage(result));
   return result;
 }
 
