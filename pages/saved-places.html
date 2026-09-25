@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CPUT Finder - Saved Places</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
         <span></span>
         <span></span>
       </button>
-      <img src="images/cput-logo.png" alt="CPUT Logo" class="logo">
+      <img src="../images/cput-logo.png" alt="CPUT Logo" class="logo">
     </div>
     <nav class="nav-links" id="topNav">
       <a href="home.html">Home</a>
@@ -45,36 +45,14 @@
         <p class="subtitle">Your favourite campus locations</p>
       </div>
 
-      <!-- Saved -->
-      <div class="saved-list">
-
-        <div class="saved-card">
-          <div class="saved-info">
-            <h3>CPUT District Six Library</h3>
-            <p>District Six Campus</p>
-          </div>
-
-          <button class="delete-btn">Remove</button>
-        </div>
-
-        <div class="saved-card">
-          <div class="saved-info">
-            <h3>Engineering Building</h3>
-            <p>CPUT District Six Campus</p>
-          </div>
-
-          <button class="delete-btn">Remove</button>
-        </div>
-
-        <div class="saved-card">
-          <div class="saved-info">
-            <h3>Student Centre</h3>
-            <p>CPUT District Six Campus</p>
-          </div>
-
-          <button class="delete-btn">Remove</button>
-        </div>
-
+      <form id="savedPlaceForm" class="crud-form">
+        <label>Building<select id="savedPlaceBuilding" required></select></label>
+        <label>Saved name<input id="savedPlaceName" required placeholder="e.g. My library"></label>
+        <button class="btn-primary" type="submit">Save place</button>
+        <p id="savedPlaceStatus" class="form-status" role="status" aria-live="polite"></p>
+      </form>
+      <div id="savedPlaceList" class="saved-list">
+        <p>Loading saved places...</p>
       </div>
     </main>
   </div>
@@ -118,7 +96,7 @@
     <a href="profile.html" class="nav-item">Profile</a>
   </nav>
 
-  <script src="js/script.js"></script>
+  <script src="../js/script.js"></script>
 </body>
 
 </html>

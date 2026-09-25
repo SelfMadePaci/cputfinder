@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPUT Finder - Rooms</title><link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="top-nav"><div class="logo-area"><img src="../images/cput-logo.png" alt="CPUT Logo" class="logo"></div>
+    <nav class="nav-links"><a href="students.html">Students</a><a href="buildings.html">Buildings</a><a href="rooms.html" class="active">Rooms</a><a href="#" onclick="logout(); return false;">Logout</a></nav>
+  </header>
+  <main class="crud-page"><section class="crud-card">
+    <h1>Room Records</h1><p class="subtitle">Manage rooms and their building relationships.</p>
+    <form id="roomForm"><input type="hidden" id="roomId">
+      <div class="crud-fields">
+        <label>Room number<input id="roomNumber" required></label>
+        <label>Floor number<input id="floorNumber" type="number" min="0" required></label>
+        <label>Building<select id="roomBuilding" required></select></label>
+      </div>
+      <button class="btn-primary" type="submit" id="roomSubmit">Create room</button>
+      <button class="btn-secondary" type="button" id="cancelRoom" hidden>Cancel edit</button>
+      <p id="roomStatus" class="form-status" role="status" aria-live="polite"></p>
+    </form>
+    <label class="record-search">Search rooms<input id="roomSearch" type="search" placeholder="Room or building"></label>
+    <div class="table-wrap"><table class="student-table"><thead><tr><th>Room</th><th>Floor</th><th>Building</th><th>Actions</th></tr></thead><tbody id="roomRows"></tbody></table></div>
+  </section></main>
+  <script src="../js/script.js"></script>
+</body>
+</html>

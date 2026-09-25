@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPUT Finder - Student Records</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="logo-area">
+      <img src="../images/cput-logo.png" alt="CPUT Logo" class="logo">
+    </div>
+    <nav class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="students.html" class="active">Student Records</a>
+      <a href="buildings.html">Buildings</a>
+      <a href="rooms.html">Rooms</a>
+    <a href="#" onclick="logout(); return false;">Logout</a>
+    </nav>
+  </header>
+
+  <main class="crud-page">
+    <section class="crud-card">
+      <h1>Student Records</h1>
+      <p class="subtitle">Create, view, update, and delete database records.</p>
+
+      <form id="studentForm" class="crud-form">
+        <input type="hidden" id="studentId">
+        <div class="crud-fields">
+          <label>Student number<input id="recordNumber" required></label>
+          <label>Full name<input id="recordName" required></label>
+          <label>Email<input id="recordEmail" type="email" required></label>
+          <label>Password<input id="recordPassword" type="password" placeholder="Required for new records"></label>
+        </div>
+        <button class="btn-primary" type="submit" id="studentSubmit">Create student</button>
+        <button class="btn-secondary" type="button" id="cancelEdit" hidden>Cancel edit</button>
+        <p id="studentStatus" class="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <label class="record-search">Search records
+        <input id="studentSearch" type="search" placeholder="Name, number, or email">
+      </label>
+      <div class="table-wrap">
+        <table class="student-table">
+          <thead><tr><th>Number</th><th>Name</th><th>Email</th><th>Actions</th></tr></thead>
+          <tbody id="studentRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="../js/script.js"></script>
+</body>
+</html>
