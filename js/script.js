@@ -504,6 +504,90 @@ if (buildingForm || roomForm) {
 
 const loginForm = document.getElementById("loginForm");
 
+const standaloneLecturerForm = document.getElementById("lecturerForm");
+if (standaloneLecturerForm) {
+  if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) {
+    window.location.href = "index.html";
+  }
+  const lecturerRows = document.getElementById("lecturerRows");
+  const lecturerSearch = document.getElementById("lecturerSearch");
+  const lecturerStatus = message => showFormStatus("lecturerStatus", message);
+  const lecturerError = message => showFormStatus("lecturerStatus", message, true);
+  let standaloneLecturers = [];
+
+  function renderStandaloneLecturers() {
+    const query = lecturerSearch.value.trim().toLowerCase();
+    lecturerRows.innerHTML = standaloneLecturers
+      .filter(lecturer => `${lecturer.firstName} ${lecturer.lastName} ${lecturer.email}`.toLowerCase().includes(query))
+      .map(lecturer => `<tr><td>${lecturer.firstName} ${lecturer.lastName}</td><td>${lecturer.email}</td>
+        <td><button type="button" class="table-button" data-lecturer-edit="${lecturer.lecturerId}">Edit</button>
+        <button type="button" class="table-button danger" data-lecturer-delete="${lecturer.lecturerId}">Delete</button></td></tr>`)
+      .join("");
+  }
+
+  async function loadStandaloneLecturers() {
+    try {
+      standaloneLecturers = await sendStudentRequest("/lecturers", "GET");
+      renderStandaloneLecturers();
+    } catch (error) {
+      lecturerError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message);
+    }
+  }
+
+  standaloneLecturerForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const id = document.getElementById("lecturerId").value;
+    const payload = {
+      firstName: document.getElementById("lecturerFirst").value.trim(),
+      lastName: document.getElementById("lecturerLast").value.trim(),
+      email: document.getElementById("lecturerEmail").value.trim(),
+      officeId: 0
+    };
+    try {
+      await sendStudentRequest(id ? `/lecturers/${id}` : "/lecturers", id ? "PUT" : "POST", payload);
+      standaloneLecturerForm.reset();
+      document.getElementById("lecturerId").value = "";
+      document.getElementById("lecturerSubmit").textContent = "Create lecturer";
+      document.getElementById("cancelLecturer").hidden = true;
+      lecturerStatus(id ? "Lecturer updated successfully." : "Lecturer created successfully.");
+      await loadStandaloneLecturers();
+    } catch (error) {
+      lecturerError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message);
+    }
+  });
+
+  lecturerRows.addEventListener("click", async event => {
+    const editId = event.target.dataset.lecturerEdit;
+    const deleteId = event.target.dataset.lecturerDelete;
+    if (editId) {
+      const lecturer = standaloneLecturers.find(item => item.lecturerId === Number(editId));
+      document.getElementById("lecturerId").value = lecturer.lecturerId;
+      document.getElementById("lecturerFirst").value = lecturer.firstName;
+      document.getElementById("lecturerLast").value = lecturer.lastName;
+      document.getElementById("lecturerEmail").value = lecturer.email;
+      document.getElementById("lecturerSubmit").textContent = "Update lecturer";
+      document.getElementById("cancelLecturer").hidden = false;
+    } else if (deleteId && confirm("Delete this lecturer record?")) {
+      try {
+        await sendStudentRequest(`/lecturers/${deleteId}`, "DELETE");
+        lecturerStatus("Lecturer deleted successfully.");
+        await loadStandaloneLecturers();
+      } catch (error) {
+        lecturerError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message);
+      }
+    }
+  });
+
+  document.getElementById("cancelLecturer").addEventListener("click", () => {
+    standaloneLecturerForm.reset();
+    document.getElementById("lecturerId").value = "";
+    document.getElementById("lecturerSubmit").textContent = "Create lecturer";
+    document.getElementById("cancelLecturer").hidden = true;
+  });
+  lecturerSearch.addEventListener("input", renderStandaloneLecturers);
+  loadStandaloneLecturers();
+}
+
 if (loginForm) {
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
