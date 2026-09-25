@@ -156,7 +156,7 @@ if (studentForm) {
 
 const buildingForm = document.getElementById("buildingForm");
 const roomForm = document.getElementById("roomForm");
-const pageNeedsAdminData = document.getElementById("scheduleForm") || document.getElementById("savedPlaceForm") || document.getElementById("foodStoreForm");
+const pageNeedsAdminData = document.getElementById("scheduleForm") || document.getElementById("foodStoreForm");
 if (buildingForm || roomForm || pageNeedsAdminData) {
   if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) {
     window.location.href = "index.html";
@@ -1128,6 +1128,84 @@ function logout() {
   localStorage.removeItem("userRole");
   localStorage.removeItem("adminSession");
   window.location.href = "index.html";
+}
+
+const standaloneSavedPlaceForm = document.getElementById("savedPlaceForm");
+if (standaloneSavedPlaceForm) {
+  const studentId = localStorage.getItem("studentId");
+  const list = document.getElementById("savedPlaceList");
+  const message = (text, error = false) => showFormStatus("savedPlaceStatus", text, error);
+  if (!studentId) {
+    message("Log in as a student to manage saved places.", true);
+    list.innerHTML = "";
+  } else {
+    let places = [];
+    const load = async () => {
+      places = await sendStudentRequest(`/saved-places/student/${studentId}`, "GET");
+      list.innerHTML = places.length
+        ? places.map(place => `<div class="saved-card"><div class="saved-info"><h3>${place.savedName}</h3><p>${place.buildingName}</p></div><button type="button" class="delete-btn" data-saved-delete="${place.savedId}">Remove</button></div>`).join("")
+        : "<p>No saved places yet.</p>";
+    };
+    sendStudentRequest("/buildings", "GET")
+      .then(buildings => {
+        savedPlaceBuilding.innerHTML = buildings.map(building => `<option value="${building.buildingId}">${building.buildingName}</option>`).join("");
+        return load();
+      })
+      .catch(error => message(error.message, true));
+    standaloneSavedPlaceForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      try {
+        await sendStudentRequest("/saved-places", "POST", {
+          studentId: Number(studentId),
+          buildingId: Number(savedPlaceBuilding.value),
+          savedName: savedPlaceName.value.trim()
+        });
+        standaloneSavedPlaceForm.reset();
+        message("Place saved successfully.");
+        await load();
+      } catch (error) {
+        message(error.message, true);
+      }
+    });
+    list.addEventListener("click", async event => {
+      const id = event.target.dataset.savedDelete;
+      if (id && confirm("Remove this saved place?")) {
+        try {
+          await sendStudentRequest(`/saved-places/${id}`, "DELETE");
+          message("Place removed successfully.");
+          await load();
+        } catch (error) {
+          message(error.message, true);
+        }
+      }
+    });
+  }
+}
+
+const standaloneTimetableRows = document.getElementById("timetableRows");
+if (standaloneTimetableRows) {
+  const studentId = localStorage.getItem("studentId");
+  const timetableStatus = document.getElementById("timetableStatus");
+  if (!studentId) {
+    timetableStatus.textContent = "Log in as a student to view your timetable.";
+    standaloneTimetableRows.innerHTML = "";
+  } else {
+    fetch(`${API_BASE_URL}/schedules/student/${studentId}`, {
+      headers: { "X-Student-Id": studentId }
+    }).then(async response => {
+      const records = await response.json();
+      if (!response.ok) throw new Error(getApiErrorMessage(records, "Timetable could not be loaded."));
+      return records;
+    }).then(records => {
+      standaloneTimetableRows.innerHTML = records.length
+        ? records.map(schedule => `<tr><td>${schedule.classDate}</td><td>${schedule.startingTime} - ${schedule.endingTime}</td><td>${schedule.moduleCode || "Course"}</td><td>${schedule.roomNumber || "Room"}</td></tr>`).join("")
+        : "<tr><td colspan='4'>No timetable records found.</td></tr>";
+    }).catch(error => {
+      timetableStatus.textContent = error.message;
+      timetableStatus.classList.add("error");
+      standaloneTimetableRows.innerHTML = "";
+    });
+  }
 }
 
 const standaloneScheduleForm = document.getElementById("scheduleForm");
