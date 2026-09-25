@@ -368,9 +368,25 @@ if (buildingForm || roomForm) {
       catch (error) { roomMessage(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message, true); }
     }
     async function loadRoomBuildings() {
-      buildingsForRooms = await sendStudentRequest("/buildings", "GET");
-      document.getElementById("roomBuilding").innerHTML = buildingsForRooms
-        .map(building => `<option value="${building.buildingId}">${building.buildingName} (${building.buildingCode})</option>`).join("");
+      const buildingSelect = document.getElementById("roomBuilding");
+      buildingSelect.innerHTML = '<option value="">Loading buildings...</option>';
+      buildingSelect.disabled = true;
+      try {
+        buildingsForRooms = await sendStudentRequest("/buildings", "GET");
+        if (!buildingsForRooms.length) {
+          buildingSelect.innerHTML = '<option value="">No buildings available</option>';
+          roomMessage("No buildings are available. Create a building before adding a room.", true);
+          return;
+        }
+        buildingSelect.innerHTML = '<option value="">Select a building</option>' +
+          buildingsForRooms
+            .map(building => `<option value="${building.buildingId}">${building.buildingName} (${building.buildingCode})</option>`)
+            .join("");
+        buildingSelect.disabled = false;
+      } catch (error) {
+        buildingSelect.innerHTML = '<option value="">Unable to load buildings</option>';
+        roomMessage(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message, true);
+      }
     }
     roomForm.addEventListener("submit", async event => {
       event.preventDefault();
