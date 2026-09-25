@@ -156,7 +156,8 @@ if (studentForm) {
 
 const buildingForm = document.getElementById("buildingForm");
 const roomForm = document.getElementById("roomForm");
-if (buildingForm || roomForm) {
+const pageNeedsAdminData = document.getElementById("scheduleForm") || document.getElementById("savedPlaceForm") || document.getElementById("foodStoreForm");
+if (buildingForm || roomForm || pageNeedsAdminData) {
   if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) {
     window.location.href = "index.html";
   }
@@ -262,7 +263,8 @@ if (buildingForm || roomForm) {
     }
 
     const timetableRows = document.getElementById("timetableRows");
-    if (timetableRows) {
+    if (timetableRows || document.getElementById("scheduleForm") || document.getElementById("savedPlaceForm")) {
+      if (timetableRows) {
       const studentId = localStorage.getItem("studentId");
       const timetableStatus = document.getElementById("timetableStatus");
       if (!studentId) {
@@ -290,10 +292,13 @@ if (buildingForm || roomForm) {
             timetableRows.innerHTML = "";
           });
       }
+      }
 
       const scheduleForm = document.getElementById("scheduleForm");
       if (scheduleForm) {
-        adminOnly();
+        if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) {
+          window.location.href = "index.html";
+        }
         let schedules = [];
         const scheduleRows = document.getElementById("scheduleRows");
         const message = (text, error = false) => showFormStatus("scheduleStatus", text, error);
@@ -1123,4 +1128,96 @@ function logout() {
   localStorage.removeItem("userRole");
   localStorage.removeItem("adminSession");
   window.location.href = "index.html";
+}
+
+const standaloneScheduleForm = document.getElementById("scheduleForm");
+if (standaloneScheduleForm) {
+  if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) {
+    window.location.href = "index.html";
+  }
+
+  const scheduleStudentField = document.getElementById("scheduleStudent");
+  const scheduleCourseField = document.getElementById("scheduleCourse");
+  const scheduleRoomField = document.getElementById("scheduleRoom");
+  const scheduleRows = document.getElementById("scheduleRows");
+  const scheduleStatus = text => showFormStatus("scheduleStatus", text);
+  let schedules = [];
+
+  const renderSchedules = () => {
+    scheduleRows.innerHTML = schedules.map(schedule =>
+      `<tr><td>${schedule.classDate}</td><td>${schedule.startingTime} - ${schedule.endingTime}</td><td>${schedule.moduleCode || "Course"}</td><td>${schedule.roomNumber || "Room"}</td><td><button type="button" class="table-button" data-schedule-edit="${schedule.scheduleId}">Edit</button> <button type="button" class="table-button danger" data-schedule-delete="${schedule.scheduleId}">Delete</button></td></tr>`
+    ).join("");
+  };
+
+  const loadSchedules = async () => {
+    schedules = await sendStudentRequest("/schedules", "GET");
+    renderSchedules();
+  };
+
+  Promise.all([
+    sendStudentRequest("/students", "GET"),
+    sendStudentRequest("/courses", "GET"),
+    sendStudentRequest("/rooms", "GET")
+  ]).then(([students, courses, rooms]) => {
+    scheduleStudentField.innerHTML = students.map(student => `<option value="${student.studentId}">${student.fullName} (${student.studentNumber})</option>`).join("");
+    scheduleCourseField.innerHTML = courses.map(course => `<option value="${course.courseId}">${course.courseCode} - ${course.courseName}</option>`).join("");
+    scheduleRoomField.innerHTML = rooms.map(room => `<option value="${room.roomId}">${room.roomNumber} - ${room.buildingName}</option>`).join("");
+    return loadSchedules();
+  }).catch(error => showFormStatus("scheduleStatus", error.message, true));
+
+  standaloneScheduleForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const id = document.getElementById("scheduleId").value;
+    const payload = {
+      studentId: Number(scheduleStudentField.value),
+      courseId: Number(scheduleCourseField.value),
+      roomId: Number(scheduleRoomField.value),
+      classDate: document.getElementById("scheduleDate").value,
+      startingTime: `${document.getElementById("scheduleStart").value}:00`,
+      endingTime: `${document.getElementById("scheduleEnd").value}:00`
+    };
+    try {
+      await sendStudentRequest(id ? `/schedules/${id}` : "/schedules", id ? "PUT" : "POST", payload);
+      standaloneScheduleForm.reset();
+      document.getElementById("scheduleId").value = "";
+      document.getElementById("scheduleSubmit").textContent = "Create schedule";
+      document.getElementById("cancelSchedule").hidden = true;
+      scheduleStatus(id ? "Schedule updated successfully." : "Schedule created successfully.");
+      await loadSchedules();
+    } catch (error) {
+      showFormStatus("scheduleStatus", error.message, true);
+    }
+  });
+
+  scheduleRows.addEventListener("click", async event => {
+    const editId = event.target.dataset.scheduleEdit;
+    const deleteId = event.target.dataset.scheduleDelete;
+    if (editId) {
+      const schedule = schedules.find(item => item.scheduleId === Number(editId));
+      document.getElementById("scheduleId").value = schedule.scheduleId;
+      scheduleStudentField.value = schedule.studentId;
+      scheduleCourseField.value = schedule.courseId;
+      scheduleRoomField.value = schedule.roomId;
+      document.getElementById("scheduleDate").value = schedule.classDate;
+      document.getElementById("scheduleStart").value = schedule.startingTime.slice(0, 5);
+      document.getElementById("scheduleEnd").value = schedule.endingTime.slice(0, 5);
+      document.getElementById("scheduleSubmit").textContent = "Update schedule";
+      document.getElementById("cancelSchedule").hidden = false;
+    } else if (deleteId && confirm("Delete this schedule record?")) {
+      try {
+        await sendStudentRequest(`/schedules/${deleteId}`, "DELETE");
+        scheduleStatus("Schedule deleted successfully.");
+        await loadSchedules();
+      } catch (error) {
+        showFormStatus("scheduleStatus", error.message, true);
+      }
+    }
+  });
+
+  document.getElementById("cancelSchedule").addEventListener("click", () => {
+    standaloneScheduleForm.reset();
+    document.getElementById("scheduleId").value = "";
+    document.getElementById("scheduleSubmit").textContent = "Create schedule";
+    document.getElementById("cancelSchedule").hidden = true;
+  });
 }
