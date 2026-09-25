@@ -600,6 +600,95 @@ if (standaloneLecturerForm) {
   loadStandaloneLecturers();
 }
 
+const standaloneCourseForm = document.getElementById("courseForm");
+if (standaloneCourseForm) {
+  if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) {
+    window.location.href = "index.html";
+  }
+  const courseRows = document.getElementById("courseRows");
+  const courseSearch = document.getElementById("courseSearch");
+  const courseLecturer = document.getElementById("courseLecturer");
+  const courseStatus = message => showFormStatus("courseStatus", message);
+  const courseError = message => showFormStatus("courseStatus", message, true);
+  let standaloneCourses = [];
+
+  function renderStandaloneCourses() {
+    const query = courseSearch.value.trim().toLowerCase();
+    courseRows.innerHTML = standaloneCourses
+      .filter(course => `${course.courseCode} ${course.courseName} ${course.lecturerName || ""}`.toLowerCase().includes(query))
+      .map(course => `<tr><td>${course.courseCode}</td><td>${course.courseName}</td><td>${course.lecturerName || "Unassigned"}</td>
+        <td><button type="button" class="table-button" data-course-edit="${course.courseId}">Edit</button>
+        <button type="button" class="table-button danger" data-course-delete="${course.courseId}">Delete</button></td></tr>`)
+      .join("");
+  }
+
+  async function loadStandaloneCourses() {
+    standaloneCourses = await sendStudentRequest("/courses", "GET");
+    renderStandaloneCourses();
+  }
+
+  async function loadCourseLecturers() {
+    const lecturers = await sendStudentRequest("/lecturers", "GET");
+    courseLecturer.innerHTML = lecturers.length
+      ? '<option value="">Select a lecturer</option>' + lecturers.map(lecturer =>
+        `<option value="${lecturer.lecturerId}">${lecturer.firstName} ${lecturer.lastName}</option>`).join("")
+      : '<option value="">No lecturers available</option>';
+  }
+
+  standaloneCourseForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const id = document.getElementById("courseId").value;
+    const payload = {
+      courseCode: document.getElementById("courseCode").value.trim(),
+      courseName: document.getElementById("courseName").value.trim(),
+      lecturerId: Number(courseLecturer.value)
+    };
+    try {
+      await sendStudentRequest(id ? `/courses/${id}` : "/courses", id ? "PUT" : "POST", payload);
+      standaloneCourseForm.reset();
+      document.getElementById("courseId").value = "";
+      document.getElementById("courseSubmit").textContent = "Create course";
+      document.getElementById("cancelCourse").hidden = true;
+      courseStatus(id ? "Course updated successfully." : "Course created successfully.");
+      await loadStandaloneCourses();
+    } catch (error) {
+      courseError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message);
+    }
+  });
+
+  courseRows.addEventListener("click", async event => {
+    const editId = event.target.dataset.courseEdit;
+    const deleteId = event.target.dataset.courseDelete;
+    if (editId) {
+      const course = standaloneCourses.find(item => item.courseId === Number(editId));
+      document.getElementById("courseId").value = course.courseId;
+      document.getElementById("courseCode").value = course.courseCode;
+      document.getElementById("courseName").value = course.courseName;
+      courseLecturer.value = course.lecturerId;
+      document.getElementById("courseSubmit").textContent = "Update course";
+      document.getElementById("cancelCourse").hidden = false;
+    } else if (deleteId && confirm("Delete this course record?")) {
+      try {
+        await sendStudentRequest(`/courses/${deleteId}`, "DELETE");
+        courseStatus("Course deleted successfully.");
+        await loadStandaloneCourses();
+      } catch (error) {
+        courseError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message);
+      }
+    }
+  });
+
+  document.getElementById("cancelCourse").addEventListener("click", () => {
+    standaloneCourseForm.reset();
+    document.getElementById("courseId").value = "";
+    document.getElementById("courseSubmit").textContent = "Create course";
+    document.getElementById("cancelCourse").hidden = true;
+  });
+  courseSearch.addEventListener("input", renderStandaloneCourses);
+  Promise.all([loadCourseLecturers(), loadStandaloneCourses()])
+    .catch(error => courseError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message));
+}
+
 if (loginForm) {
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
