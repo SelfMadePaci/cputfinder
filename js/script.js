@@ -899,9 +899,43 @@ function removePlace(button) {
 const profileForm = document.getElementById("profileForm");
 
 if (profileForm) {
-  profileForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    alert("Profile updated successfully!");
+  const studentId = localStorage.getItem("studentId");
+  const profileStatus = text => showFormStatus("profileStatus", text);
+  const profileError = text => showFormStatus("profileStatus", text, true);
+  const setProfile = student => {
+    const nameParts = student.fullName.trim().split(/\s+/);
+    document.getElementById("firstName").value = nameParts.shift() || "";
+    document.getElementById("lastName").value = nameParts.join(" ");
+    document.getElementById("email").value = student.studentEmail;
+    document.getElementById("studentNumber").value = student.studentNumber;
+    document.getElementById("profileName").textContent = student.fullName;
+    document.getElementById("profileStudentNumber").textContent = student.studentNumber;
+    document.getElementById("profileEmail").textContent = student.studentEmail;
+  };
+
+  if (!studentId) {
+    profileError("Log in as a student to view your profile.");
+  } else {
+    sendStudentRequest(`/students/${studentId}`, "GET")
+      .then(setProfile)
+      .catch(error => profileError(error.message));
+  }
+
+  profileForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!studentId) return;
+    const fullName = `${document.getElementById("firstName").value.trim()} ${document.getElementById("lastName").value.trim()}`.trim();
+    try {
+      const updated = await sendStudentRequest(`/students/${studentId}`, "PUT", {
+        studentNumber: document.getElementById("studentNumber").value.trim(),
+        fullName,
+        studentEmail: document.getElementById("email").value.trim()
+      });
+      setProfile(updated);
+      profileStatus("Profile updated successfully.");
+    } catch (error) {
+      profileError(error.message);
+    }
   });
 }
 

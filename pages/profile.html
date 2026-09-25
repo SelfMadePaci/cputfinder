@@ -49,12 +49,11 @@
       <!-- Profile Card -->
       <div class="profile-card">
         <div class="profile-top">
-          <img src="../images/profile.jpg" alt="Profile Picture" class="profile-img-large"
-            onerror="this.src='https://via.placeholder.com/120'">
+          <img src="../images/cput-logo.png" alt="CPUT profile" class="profile-img-large">
           <div class="profile-details">
-            <h2>Sofia Samson</h2>
-            <p>Student Number: 22</p>
-            <p>Email: 22@mycput.ac.za</p>
+            <h2 id="profileName">Loading profile...</h2>
+            <p>Student Number: <span id="profileStudentNumber">—</span></p>
+            <p>Email: <span id="profileEmail">—</span></p>
           </div>
         </div>
 
@@ -89,7 +88,8 @@
           <div class="form-actions">
             <button type="submit" class="btn-primary">Save Changes</button>
             <button type="button" class="btn-secondary" onclick="resetForm()">Cancel</button>
-            <button class="btn-secondary" onclick="logout()">Log Out</button>
+            <button type="button" class="btn-secondary" onclick="logout()">Log Out</button>
+            <p id="profileStatus" class="form-status" role="status" aria-live="polite"></p>
           </div>
         </form>
       </div>
@@ -135,7 +135,7 @@
   <a href="profile.html" class="nav-item active">Profile</a>
 </nav>
 
-  <script src="../js/script.js"></script>
+  <script src="../js/script.js?v=profile-fix"></script>
 </body>
 
 </html>
