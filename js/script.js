@@ -143,12 +143,12 @@ if (studentForm) {
 }
 
 const buildingForm = document.getElementById("buildingForm");
-if (buildingForm) {
+const roomForm = document.getElementById("roomForm");
+if (buildingForm || roomForm) {
   if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) {
     window.location.href = "index.html";
   }
 
-  const roomForm = document.getElementById("roomForm");
   if (roomForm) {
     if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) window.location.href = "index.html";
     let rooms = [], buildingsForRooms = [];
@@ -403,11 +403,12 @@ if (buildingForm) {
     roomSearch.addEventListener("input", renderRooms);
     loadRoomBuildings().then(loadRooms).catch(error => roomMessage(error.message, true));
   }
-  let buildings = [];
-  const buildingRows = document.getElementById("buildingRows");
-  const buildingSearch = document.getElementById("buildingSearch");
-  const buildingMessage = (message, isError = false) =>
-    showFormStatus("buildingStatus", message, isError);
+  if (buildingForm) {
+    let buildings = [];
+    const buildingRows = document.getElementById("buildingRows");
+    const buildingSearch = document.getElementById("buildingSearch");
+    const buildingMessage = (message, isError = false) =>
+      showFormStatus("buildingStatus", message, isError);
 
   function renderBuildings() {
     const query = buildingSearch.value.trim().toLowerCase();
@@ -481,7 +482,8 @@ if (buildingForm) {
     document.getElementById("cancelBuilding").hidden = true;
   });
   buildingSearch.addEventListener("input", renderBuildings);
-  loadBuildings();
+    loadBuildings();
+  }
 }
 
 const loginForm = document.getElementById("loginForm");
