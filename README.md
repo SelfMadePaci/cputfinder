@@ -81,7 +81,7 @@ CputFinder - backend/
 ├── pom.xml
 ├── README.md
 ├── SETUP.md
-└── target/
+└── target/             (generated locally; not committed)
 ```
 
 If you move the project to another computer, copy this frontend folder into
@@ -261,12 +261,9 @@ registered email and password.
 
 ### Administrator
 
-The development administrator account is:
-
-```text
-Email:    admin@cputfinder.local
-Password: CPUTFinderAdmin@26!
-```
+The administrator account is configured through environment variables. Do not
+commit administrator credentials to the repository. Set `ADMIN_EMAIL` and
+`ADMIN_PASSWORD_HASH` in the backend environment before starting the API.
 
 The administrator can manage student records, buildings, rooms, lecturers,
 courses, food stores, and schedules.

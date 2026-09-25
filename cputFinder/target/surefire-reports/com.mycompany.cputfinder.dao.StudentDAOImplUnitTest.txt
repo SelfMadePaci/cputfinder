@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.mycompany.cputfinder.dao.StudentDAOImplUnitTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.241 s -- in com.mycompany.cputfinder.dao.StudentDAOImplUnitTest
