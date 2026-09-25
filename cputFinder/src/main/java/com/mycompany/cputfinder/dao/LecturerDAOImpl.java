@@ -30,7 +30,7 @@ public class LecturerDAOImpl implements LecturerDAO {
             stmt.setString(1, lecturer.getFirstName());
             stmt.setString(2, lecturer.getLastName());
             stmt.setString(3, lecturer.getEmail());
-            stmt.setInt(4, lecturer.getOfficeId());
+            setOfficeId(stmt, 4, lecturer.getOfficeId());
             
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -86,7 +86,7 @@ public class LecturerDAOImpl implements LecturerDAO {
             stmt.setString(1, lecturer.getFirstName());
             stmt.setString(2, lecturer.getLastName());
             stmt.setString(3, lecturer.getEmail());
-            stmt.setInt(4, lecturer.getOfficeId());
+            setOfficeId(stmt, 4, lecturer.getOfficeId());
             stmt.setInt(5, lecturer.getLecturerId());
             
             return stmt.executeUpdate() > 0;
@@ -146,5 +146,14 @@ public class LecturerDAOImpl implements LecturerDAO {
         );
         lecturer.setOfficeNumber(rs.getString("office_number"));
         return lecturer;
+    }
+
+    private void setOfficeId(PreparedStatement statement, int parameterIndex, int officeId)
+            throws SQLException {
+        if (officeId > 0) {
+            statement.setInt(parameterIndex, officeId);
+        } else {
+            statement.setNull(parameterIndex, java.sql.Types.INTEGER);
+        }
     }
 }
