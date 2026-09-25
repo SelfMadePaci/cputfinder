@@ -689,6 +689,97 @@ if (standaloneCourseForm) {
     .catch(error => courseError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message));
 }
 
+const standaloneFoodStoreForm = document.getElementById("foodStoreForm");
+if (standaloneFoodStoreForm) {
+  if (localStorage.getItem("userRole") !== "ADMIN" || !localStorage.getItem("adminSession")) {
+    window.location.href = "index.html";
+  }
+  const foodStoreRows = document.getElementById("foodStoreRows");
+  const foodStoreSearch = document.getElementById("foodStoreSearch");
+  const foodStoreBuilding = document.getElementById("foodStoreBuilding");
+  const foodStoreStatus = message => showFormStatus("foodStoreStatus", message);
+  const foodStoreError = message => showFormStatus("foodStoreStatus", message, true);
+  let standaloneFoodStores = [];
+
+  function renderStandaloneFoodStores() {
+    const query = foodStoreSearch.value.trim().toLowerCase();
+    foodStoreRows.innerHTML = standaloneFoodStores
+      .filter(store => `${store.storeName} ${store.foodType} ${store.buildingName || ""}`.toLowerCase().includes(query))
+      .map(store => `<tr><td>${store.storeName}</td><td>${store.operatingHours}</td><td>${store.foodType}</td><td>${store.buildingName || "Unknown"}</td>
+        <td><button type="button" class="table-button" data-store-edit="${store.storeId}">Edit</button>
+        <button type="button" class="table-button danger" data-store-delete="${store.storeId}">Delete</button></td></tr>`)
+      .join("");
+  }
+
+  async function loadStandaloneFoodStores() {
+    standaloneFoodStores = await sendStudentRequest("/food-stores", "GET");
+    renderStandaloneFoodStores();
+  }
+
+  async function loadFoodStoreBuildings() {
+    const buildings = await sendStudentRequest("/buildings", "GET");
+    foodStoreBuilding.innerHTML = buildings.length
+      ? '<option value="">Select a building</option>' + buildings.map(building =>
+        `<option value="${building.buildingId}">${building.buildingName} (${building.buildingCode})</option>`).join("")
+      : '<option value="">No buildings available</option>';
+  }
+
+  standaloneFoodStoreForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const id = document.getElementById("foodStoreId").value;
+    const payload = {
+      storeName: document.getElementById("foodStoreName").value.trim(),
+      operatingHours: document.getElementById("foodStoreHours").value.trim(),
+      foodType: document.getElementById("foodStoreType").value.trim(),
+      buildingId: Number(foodStoreBuilding.value)
+    };
+    try {
+      await sendStudentRequest(id ? `/food-stores/${id}` : "/food-stores", id ? "PUT" : "POST", payload);
+      standaloneFoodStoreForm.reset();
+      document.getElementById("foodStoreId").value = "";
+      document.getElementById("foodStoreSubmit").textContent = "Create food store";
+      document.getElementById("cancelFoodStore").hidden = true;
+      foodStoreStatus(id ? "Food store updated successfully." : "Food store created successfully.");
+      await loadStandaloneFoodStores();
+    } catch (error) {
+      foodStoreError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message);
+    }
+  });
+
+  foodStoreRows.addEventListener("click", async event => {
+    const editId = event.target.dataset.storeEdit;
+    const deleteId = event.target.dataset.storeDelete;
+    if (editId) {
+      const store = standaloneFoodStores.find(item => item.storeId === Number(editId));
+      document.getElementById("foodStoreId").value = store.storeId;
+      document.getElementById("foodStoreName").value = store.storeName;
+      document.getElementById("foodStoreHours").value = store.operatingHours;
+      document.getElementById("foodStoreType").value = store.foodType;
+      foodStoreBuilding.value = store.buildingId;
+      document.getElementById("foodStoreSubmit").textContent = "Update food store";
+      document.getElementById("cancelFoodStore").hidden = false;
+    } else if (deleteId && confirm("Delete this food store record?")) {
+      try {
+        await sendStudentRequest(`/food-stores/${deleteId}`, "DELETE");
+        foodStoreStatus("Food store deleted successfully.");
+        await loadStandaloneFoodStores();
+      } catch (error) {
+        foodStoreError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message);
+      }
+    }
+  });
+
+  document.getElementById("cancelFoodStore").addEventListener("click", () => {
+    standaloneFoodStoreForm.reset();
+    document.getElementById("foodStoreId").value = "";
+    document.getElementById("foodStoreSubmit").textContent = "Create food store";
+    document.getElementById("cancelFoodStore").hidden = true;
+  });
+  foodStoreSearch.addEventListener("input", renderStandaloneFoodStores);
+  Promise.all([loadFoodStoreBuildings(), loadStandaloneFoodStores()])
+    .catch(error => foodStoreError(error instanceof TypeError ? "Cannot connect to the Spring Boot API." : error.message));
+}
+
 if (loginForm) {
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
