@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPUT Finder - Menu Items</title>
+  <link rel="stylesheet" href="../css/style.css?v=cafeteria-menu">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="logo-area">
+      <img src="../images/cput-logo.png" alt="CPUT Logo" class="logo">
+    </div>
+    <nav class="nav-links admin-nav">
+      <a href="home.html">Home</a>
+      <a href="students.html">Student Records</a>
+      <a href="buildings.html">Buildings</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="courses.html">Courses</a>
+      <a href="lecturers.html">Lecturers</a>
+      <a href="food-stores.html">Food Stores</a>
+      <a href="menu-items.html" class="active">Menu Items</a>
+      <a href="schedules.html">Schedules</a>
+      <a href="#" onclick="logout(); return false;">Logout</a>
+    </nav>
+  </header>
+
+  <main class="crud-page">
+    <section class="crud-card">
+      <h1>Cafeteria Menu Items</h1>
+      <p class="subtitle">Add, edit, reorder, or remove items shown on the student cafeteria page.</p>
+
+      <form id="menuItemForm">
+        <input type="hidden" id="menuItemId">
+        <div class="crud-fields">
+          <label>Meal
+            <select id="menuItemCategory" required>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+            </select>
+          </label>
+          <label>Item name<input id="menuItemName" maxlength="150" required></label>
+          <label>Price (R)<input id="menuItemPrice" type="number" min="0" max="999999.99" step="0.01" required></label>
+          <label>Display order<input id="menuItemOrder" type="number" min="0" step="1" value="1" required></label>
+        </div>
+        <button class="btn-primary" type="submit" id="menuItemSubmit">Add menu item</button>
+        <button class="btn-secondary" type="button" id="cancelMenuItem" hidden>Cancel edit</button>
+        <p id="menuItemStatus" class="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="table-wrap">
+        <table class="student-table">
+          <thead>
+            <tr><th>Meal</th><th>Item</th><th>Price</th><th>Order</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="menuItemRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="../js/script.js?v=cafeteria-menu"></script>
+</body>
+</html>
